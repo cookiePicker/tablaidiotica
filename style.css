@@ -1,0 +1,101 @@
+.text1 {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%); /* Moves element back by 50% of its own width */
+  text-align: center;          /* Centers multiple lines of text relative to each other */
+  white-space: nowrap;         /* Optional: Prevents text from wrapping if it gets long */
+}
+.text2 {
+  position: fixed;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%); /* Moves element back by 50% of its own width */
+  text-align: center;          /* Centers multiple lines of text relative to each other */
+  white-space: nowrap;         /* Optional: Prevents text from wrapping if it gets long */
+}
+
+.element_name {
+  position: fixed;
+  left: 50%;
+  top: 17%;
+  transform: translateX(-50%); /* Moves element back by 50% of its own width */
+  text-align: center;          /* Centers multiple lines of text relative to each other */
+  white-space: nowrap;
+  font-size: 100px;
+}
+
+.buttons_container {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Space between buttons */
+  
+  /* Width = (5 buttons * 50px) + (4 gaps * 10px) = 290px */
+  width: 290px; 
+}
+
+.v_button {
+  width: 50px;
+  height: 50px; /* Makes the buttons square */
+  box-sizing: border-box;
+  font-size: 30px;
+  background-color: rgb(255, 255, 255)
+}
+
+
+
+/*
+.text4{
+  position: fixed;
+  left: 0%;
+  font-size: 25px;
+  top: 85%;
+}
+.text5{
+  position: fixed;
+  left: 0%;
+  font-size: 25px;
+  top: 90%;
+} */
+
+.stats_container {
+  position: fixed;
+  top: 83%;
+  left: 2%;
+  display: flex;
+  flex-direction: column;
+  gap: 0px; /* Fully removes flexbox gap */
+}
+
+.ellements_container {
+  position: fixed;
+  display: flex;
+  transform: translateX(-50%);
+  flex-wrap: wrap;
+  top: 83%;
+  left: 50%;
+  gap: 5px;
+  width: 1055px;
+
+}
+
+.text3 {
+  font-size: 30px;
+  margin: 0 !important;   /* Forces default h1 margins to 0 */
+  padding: 0 !important;  /* Forces padding to 0 */
+  line-height: 1;       /* Pulls text baselines closer */
+}
+
+.element_box {
+  display: flex;
+  align-items: center;    /* Centers content vertically (Y-axis) */
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  font-size: 20px;
+}
+
