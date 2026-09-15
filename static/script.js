@@ -1,9 +1,11 @@
 // Access elements similarly to pointers/references in C++ or table lookups in Lua
 const button = document.getElementById("myButton");
+const body = document.body;
 const box = document.getElementById("box1");
 const element_name = document.getElementById("element_name");
 const mistakes_text = document.getElementById("mistakes");
 const correct_text = document.getElementById("correct");
+const score_text = document.getElementById("score");
 const elements_container = document.getElementById("ellements_container");
 
 let valencies_buttons_array = []
@@ -19,14 +21,14 @@ let corrects = 0;
 let currentElement = null;
 
 
-function show_passed_ellement(element, correct){
+function show_passed_ellement(object_element, correct){
 
   let element_box = document.createElement("div");
 
   element_box.className = "element_box";
   element_box.id = "element_box";
 
-  element_box.textContent = element;
+  element_box.textContent = object_element.symbol;
 
   passed_ellements_array.push(element_box);
 
@@ -40,7 +42,28 @@ function show_passed_ellement(element, correct){
   else {
     element_box.style.backgroundColor = "red";
   }
+  let valencies_box = null;
+  element_box.addEventListener("mouseenter", () => {
+    console.log(object_element.valencies);
+    valencies_box = document.createElement("div");
+    const rect = element_box.getBoundingClientRect();
+    const center = rect.left + rect.width / 2;
 
+    valencies_box.style.left = center + "px";
+    valencies_box.style.top = (rect.top - 35) + "px"
+    body.appendChild(valencies_box)
+    valencies_box.className = "valencies_display_box";
+    valencies_box.textContent = object_element.valencies;
+    valencies_box.style.position = element_box.style.position;
+    
+  });
+
+  element_box.addEventListener("mouseleave", () => {
+      if (valencies_box){
+        valencies_box.remove();
+      }
+      console.log("Cursor left the button");
+  });
 
 }
 
@@ -115,14 +138,6 @@ const elementValencies = [
   { Pb: "+2, +4" }
 ];
 
-function getValencies(symbol) {
-  // Find the object that has 'symbol' as a property key
-  const match = elementValencies.find(item => Object.prototype.hasOwnProperty.call(item, symbol));
-  
-  // Return the valencies or a default message if not found
-  return match ? match[symbol] : "Element not found";
-}
-
 let availableIndexes = [];
 
 let isNewRoundNeeded = false;
@@ -164,6 +179,11 @@ function load_new_element(random) {
   
   correct_text.textContent = "Correctos: " + String(corrects);
   mistakes_text.textContent = "Fallos: " + String(mistakes);
+  let score = corrects + mistakes === 0
+    ? 0
+    : corrects / (corrects + mistakes) * 100;
+
+  score_text.textContent = "Score: " + String(Math.floor(score)) + "%";
 
   element_name.textContent = currentElement.symbol;
 }
@@ -193,7 +213,7 @@ function checkAnswer(valencie, btn) {
       // if (availableIndexes.length === 0) {
       //   washup_passed_elements();
       // }
-      show_passed_ellement(currentElement.symbol, no_mistakes)
+      show_passed_ellement(currentElement, no_mistakes)
       
       load_new_element(false);
     }
@@ -205,8 +225,8 @@ button.addEventListener("click", () => {
   console.log("Button clicked!");
 
   // leftPosition += 10;
-  // load_new_element(true);
-  test_passed_elements_list(100);
+  load_new_element(true);
+  // test_passed_elements_list(100);
 });
 
 
@@ -220,7 +240,7 @@ async function test_passed_elements_list(MsDelay){
             washup_passed_elements();
         }
 
-        show_passed_ellement(currentElement.symbol, no_mistakes);
+        show_passed_ellement(currentElement, no_mistakes);
         load_new_element(false);
     }
 }

@@ -62,12 +62,20 @@
 } */
 
 .stats_container {
-  position: fixed;
-  top: 83%;
-  left: 2%;
+  position: relative;
+  top: 30px;
+  left: 2px;
   display: flex;
   flex-direction: column;
   gap: 0px; /* Fully removes flexbox gap */
+}
+
+.random_button {
+  width: 70px;
+  height: 25px;
+  font-size: 15px;
+  align-items: center;    /* Centers content vertically (Y-axis) */
+  justify-content: center;
 }
 
 .ellements_container {
@@ -87,6 +95,7 @@
   margin: 0 !important;   /* Forces default h1 margins to 0 */
   padding: 0 !important;  /* Forces padding to 0 */
   line-height: 1;       /* Pulls text baselines closer */
+  
 }
 
 .element_box {
@@ -99,3 +108,12 @@
   font-size: 20px;
 }
 
+.valencies_display_box{
+  position: fixed;
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: white;
+  border: 2px solid black;
+  color: black;
+  transform: translateX(-50%);
+}

@@ -6,7 +6,7 @@
   <title>valencias</title>
   <!-- Link CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <!--<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">-->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -15,11 +15,12 @@
   
 
   <h1 class="element_name" id = "element_name">H</h1>
-  <button id="myButton">Random</button>
+  <button id="myButton" class = "random_button">Random</button>
   <div class = "stats_container">
-    <h1 class="text3" id = "mistakes">Fallos: </h1>
-    <h1 class="text3" id = "correct">Correctos: </h1>
-    <h1 class="text3" id=  "score">Score: </h1>
+    
+    <h1 class="text3" id = "mistakes">Fallos: 0</h1>
+    <h1 class="text3" id = "correct">Correctos: 0</h1>
+    <h1 class="text3" id=  "score">Score: 0%</h1>
   </div>
   <div class="buttons_container">
     <button class="v_button" id="-4">-4</button>
