@@ -43,6 +43,7 @@ function show_passed_ellement(object_element, correct){
     element_box.style.backgroundColor = "red";
   }
   let valencies_box = null;
+
   element_box.addEventListener("mouseenter", () => {
     console.log(object_element.valencies);
     valencies_box = document.createElement("div");
@@ -138,14 +139,11 @@ const elementValencies = [
   { Pb: "+2, +4" }
 ];
 
-let availableIndexes = [];
+let availableIndexes = elementValencies.map((_, index) => index);
 
 let isNewRoundNeeded = false;
 
 function pickRandomElement() {
-  if (availableIndexes.length === 0) {
-    availableIndexes = elementValencies.map((_, index) => index);
-  }
   const randomPosition = Math.floor(Math.random() * availableIndexes.length);
   const chosenIndex = availableIndexes.splice(randomPosition, 1)[0];
 
@@ -176,7 +174,11 @@ function load_new_element(random) {
   }
 
   currentElement = pickRandomElement();
-  
+
+  element_name.textContent = currentElement.symbol;
+}
+
+function displayStats(){
   correct_text.textContent = "Correctos: " + String(corrects);
   mistakes_text.textContent = "Fallos: " + String(mistakes);
   let score = corrects + mistakes === 0
@@ -184,8 +186,6 @@ function load_new_element(random) {
     : corrects / (corrects + mistakes) * 100;
 
   score_text.textContent = "Score: " + String(Math.floor(score)) + "%";
-
-  element_name.textContent = currentElement.symbol;
 }
 
 function checkAnswer(valencie, btn) {
@@ -210,12 +210,15 @@ function checkAnswer(valencie, btn) {
       no_mistakes = false;
     }
     if (c_e_correct_answers == c_e_valencies_number){
-      // if (availableIndexes.length === 0) {
-      //   washup_passed_elements();
-      // }
+      if (availableIndexes.length === 0) {
+        washup_passed_elements();
+        availableIndexes = elementValencies.map((_, index) => index);
+      }
       show_passed_ellement(currentElement, no_mistakes)
       
       load_new_element(false);
+
+      displayStats()
     }
 
   }
@@ -226,24 +229,54 @@ button.addEventListener("click", () => {
 
   // leftPosition += 10;
   load_new_element(true);
+  displayStats()
   // test_passed_elements_list(100);
 });
 
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-async function test_passed_elements_list(MsDelay){
-    for(let i = 0; i < 42; i++){
-        await delay(MsDelay);
+// async function test_passed_elements_list(MsDelay){
+//     for(let i = 0; i < 42; i++){
+//         await delay(MsDelay);
 
-        if (availableIndexes.length === 0) {
-            washup_passed_elements();
-        }
+//         if (availableIndexes.length === 0) {
+//             washup_passed_elements();
+//         }
 
-        show_passed_ellement(currentElement, no_mistakes);
-        load_new_element(false);
-    }
-}
+//         show_passed_ellement(currentElement, no_mistakes);
+//         load_new_element(false);
+        
+//     }
+// }
+
+// async function autotest(MsDelay = 100) {
+//     for (let i = 0; i < 81; i++) {
+
+//         // Get the current element's correct valencies
+//         const correctValencies = currentElement.valencies
+//             .split(",")
+//             .map(item => item.trim());
+
+//         // Click the actual buttons for each correct valency
+//         for (const valency of correctValencies) {
+
+//             // Convert "+1" -> "1", "-2" -> "-2"
+//             const buttonId = valency.startsWith("+")
+//                 ? valency.substring(1)
+//                 : valency;
+
+//             const btn = document.getElementById(buttonId);
+
+//             if (btn) {
+//                 btn.click();
+//                 await delay(MsDelay);
+//             }
+//         }
+//     }
+
+//     console.log("Autotest finished!");
+// }
 
 // window.addEventListener("keydown", (event) => {
 //     switch(event.key) {
