@@ -8,91 +8,6 @@ const correct_text = document.getElementById("correct");
 const score_text = document.getElementById("score");
 const elements_container = document.getElementById("ellements_container");
 
-let valencies_buttons_array = []
-let passed_ellements_array = []
-
-let leftPosition = 0;
-let c_e_correct_answers = 0;
-let c_e_valencies_number = 0;
-let score = 0;
-let mistakes = 0;
-let no_mistakes = true;
-let corrects = 0;
-let currentElement = null;
-
-
-function show_passed_ellement(object_element, correct){
-
-  let element_box = document.createElement("div");
-
-  element_box.className = "element_box";
-  element_box.id = "element_box";
-
-  element_box.textContent = object_element.symbol;
-
-  passed_ellements_array.push(element_box);
-
-  elements_container.appendChild(element_box);
-
-  element_box.style.color = "white";
-
-  if (correct){
-    element_box.style.backgroundColor = "green";
-  }
-  else {
-    element_box.style.backgroundColor = "red";
-  }
-  let valencies_box = null;
-
-  element_box.addEventListener("mouseenter", () => {
-    console.log(object_element.valencies);
-    valencies_box = document.createElement("div");
-    const rect = element_box.getBoundingClientRect();
-    const center = rect.left + rect.width / 2;
-
-    valencies_box.style.left = center + "px";
-    valencies_box.style.top = (rect.top - 35) + "px"
-    body.appendChild(valencies_box)
-    valencies_box.className = "valencies_display_box";
-    valencies_box.textContent = object_element.valencies;
-    valencies_box.style.position = element_box.style.position;
-    
-  });
-
-  element_box.addEventListener("mouseleave", () => {
-      if (valencies_box){
-        valencies_box.remove();
-      }
-      console.log("Cursor left the button");
-  });
-
-}
-
-function washup_passed_elements(){
-  for (const element_box of passed_ellements_array){
-    element_box.remove();
-  }
-  passed_ellements_array = [];
-
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  for (let i = -4; i < 8; i++) {
-    const btn = document.getElementById(String(i));
-    if (btn) {
-      btn.addEventListener("click", () => {
-        checkAnswer(i, btn);
-      });
-      valencies_buttons_array.push(btn);
-    }
-  }
-  currentElement = pickRandomElement();
-  element_name.textContent = currentElement.symbol;
-});
-// heading.textContent = "New Heading Text"
-
-
-
 const elementValencies = [
   { H: "+1, -1" },
   { Li: "+1" },
@@ -143,14 +58,102 @@ let availableIndexes = elementValencies.map((_, index) => index);
 
 let isNewRoundNeeded = false;
 
+let valencies_buttons_array = []
+let passed_ellements_array = []
+
+let leftPosition = 0;
+let c_e_correct_answers = 0;
+let c_e_valencies_number = 0;
+let current_index = 0;
+let score = 0;
+let mistakes = 0;
+let no_mistakes = true;
+let corrects = 0;
+let currentElement = null;
+
+
+function show_passed_ellement(object_element, correct){
+
+  let element_box = document.createElement("div");
+
+  element_box.className = "element_box";
+  element_box.id = "element_box";
+
+  element_box.textContent = object_element.symbol;
+
+  passed_ellements_array.push(element_box);
+
+  elements_container.appendChild(element_box);
+
+  element_box.style.color = "white";
+
+  if (correct){
+    element_box.style.backgroundColor = "green";
+  }
+  else {
+    element_box.style.backgroundColor = "red";
+  }
+  let valencies_box = null;
+
+  element_box.addEventListener("mouseenter", () => {
+    // console.log(object_element.valencies);
+    valencies_box = document.createElement("div");
+    const rect = element_box.getBoundingClientRect();
+    const center = rect.left + rect.width / 2;
+
+    valencies_box.style.left = center + "px";
+    valencies_box.style.top = (rect.top - 35) + "px"
+    body.appendChild(valencies_box)
+    valencies_box.className = "valencies_display_box";
+    valencies_box.textContent = object_element.valencies;
+    valencies_box.style.position = element_box.style.position;
+    
+  });
+
+  element_box.addEventListener("mouseleave", () => {
+      if (valencies_box){
+        valencies_box.remove();
+      }
+      // console.log("Cursor left the button");
+  });
+
+}
+
+function washup_passed_elements(){
+  for (const element_box of passed_ellements_array){
+    element_box.remove();
+  }
+  // console.log( passed_ellements_array.length());
+  passed_ellements_array = [];
+
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  for (let i = -4; i < 8; i++) {
+    const btn = document.getElementById(String(i));
+    if (btn) {
+      btn.addEventListener("click", () => {
+        checkAnswer(i, btn);
+      });
+      valencies_buttons_array.push(btn);
+    }
+  }
+  currentElement = pickRandomElement();
+  availableIndexes = elementValencies.map((_, index) => index);
+  element_name.textContent = currentElement.symbol;
+});
+// heading.textContent = "New Heading Text"
+
 function pickRandomElement() {
+  
   const randomPosition = Math.floor(Math.random() * availableIndexes.length);
   const chosenIndex = availableIndexes.splice(randomPosition, 1)[0];
-
+  // console.log("removed index: ", chosenIndex);
   const randomObj = elementValencies[chosenIndex];
   const symbol = Object.keys(randomObj)[0];
   const valencyStr = randomObj[symbol];
-
+  console.log("indexes left: " + availableIndexes.length)
+  console.log("displaying elements: "+ passed_ellements_array.length)
   return { symbol, valencies: valencyStr };
 }
 
@@ -175,7 +178,9 @@ function load_new_element(random) {
 
   currentElement = pickRandomElement();
 
-  element_name.textContent = currentElement.symbol;
+      element_name.textContent = currentElement.symbol;
+
+  
 }
 
 function displayStats(){
@@ -190,6 +195,8 @@ function displayStats(){
 
 function checkAnswer(valencie, btn) {
   if (currentElement){
+
+    
     
     const cleanValencies = currentElement.valencies
     .split(",")
@@ -198,7 +205,13 @@ function checkAnswer(valencie, btn) {
     c_e_valencies_number = cleanValencies.length;
 
     // Format integer i to match "+1" or "-1"
-    const formattedInput = valencie > 0 ? `+${valencie}` : String(valencie);
+    let formattedInput;
+
+    if (valencie > 0) {
+        formattedInput = "+" + String(valencie);
+    } else {
+        formattedInput = String(valencie);
+    }
     
     if (cleanValencies.includes(formattedInput)) {
       btn.style.backgroundColor = "green";
@@ -210,8 +223,10 @@ function checkAnswer(valencie, btn) {
       no_mistakes = false;
     }
     if (c_e_correct_answers == c_e_valencies_number){
+
       if (availableIndexes.length === 0) {
         washup_passed_elements();
+        availableIndexes = [];
         availableIndexes = elementValencies.map((_, index) => index);
       }
       show_passed_ellement(currentElement, no_mistakes)
@@ -250,33 +265,33 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 //     }
 // }
 
-// async function autotest(MsDelay = 100) {
-//     for (let i = 0; i < 81; i++) {
+async function autotest(MsDelay = 100) {
+    for (let i = 0; i < 43; i++) {
 
-//         // Get the current element's correct valencies
-//         const correctValencies = currentElement.valencies
-//             .split(",")
-//             .map(item => item.trim());
+        // Get the current element's correct valencies
+        const correctValencies = currentElement.valencies
+            .split(",")
+            .map(item => item.trim());
 
-//         // Click the actual buttons for each correct valency
-//         for (const valency of correctValencies) {
+        // Click the actual buttons for each correct valency
+        for (const valency of correctValencies) {
 
-//             // Convert "+1" -> "1", "-2" -> "-2"
-//             const buttonId = valency.startsWith("+")
-//                 ? valency.substring(1)
-//                 : valency;
+            // Convert "+1" -> "1", "-2" -> "-2"
+            const buttonId = valency.startsWith("+")
+                ? valency.substring(1)
+                : valency;
 
-//             const btn = document.getElementById(buttonId);
+            const btn = document.getElementById(buttonId);
 
-//             if (btn) {
-//                 btn.click();
-//                 await delay(MsDelay);
-//             }
-//         }
-//     }
+            if (btn) {
+                btn.click();
+                await delay(MsDelay);
+            }
+        }
+    }
 
-//     console.log("Autotest finished!");
-// }
+    console.log("Autotest finished!");
+}
 
 // window.addEventListener("keydown", (event) => {
 //     switch(event.key) {
