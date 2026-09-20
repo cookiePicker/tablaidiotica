@@ -122,3 +122,16 @@
   color: black;
   transform: translateX(-50%);
 }
+
+.nerd {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    right: 10px;
+    bottom: 10px;
+    visibility: hidden;
+}
+
+/* .hidden {
+    display: none;
+} */

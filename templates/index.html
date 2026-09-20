@@ -6,15 +6,20 @@
   <title>tablaidiotica</title>
   <!-- Link CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='switch.css') }}">
+  
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
-
+  <label class="switch">
+    
+    <input type="checkbox" id="nerd_switch">
+    <span class="slider"></span>
+  </label>
   <h1 class="text1">Valencias de los elementos</h1>
   <h1 class="text2">Elemento:</h1>
   
-
   <h1 class="element_name" id = "element_name">H</h1>
   <button id="myButton" class = "random_button">Random</button>
   <div class = "stats_container">
@@ -39,6 +44,9 @@
   <div class="ellements_container" id="ellements_container">
     
   </div>
+  <img id = "nerd" class = "nerd" src="{{ url_for('static', filename='nerd.png') }}"
+     alt="NERD!">
+    
   
   <!-- Link JS (defer ensures HTML elements load before JS runs) -->
  <script src="{{ url_for('static', filename='script.js') }}" defer></script>

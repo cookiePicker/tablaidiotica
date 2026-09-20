@@ -1,5 +1,7 @@
 // Access elements similarly to pointers/references in C++ or table lookups in Lua
 const button = document.getElementById("myButton");
+const nerd_switch = document.getElementById("nerd_switch");
+const nerd_image = document.getElementById("nerd");
 const body = document.body;
 const box = document.getElementById("box1");
 const element_name = document.getElementById("element_name");
@@ -8,7 +10,7 @@ const correct_text = document.getElementById("correct");
 const score_text = document.getElementById("score");
 const elements_container = document.getElementById("ellements_container");
 
-const elementValencies = [
+let elementValencies = [
   { H: "+1, -1" },
   { Li: "+1" },
   { Be: "+2" },
@@ -20,8 +22,8 @@ const elementValencies = [
   { Sr: "+2" },
   { Cs: "+1" },
   { Ba: "+2" },
-  { Cr: "+2, +3, +6" },
-  { Mn: "+2, +3, +6, +7" },
+  { Cr: "+2, +3" },
+  { Mn: "+2, +3" },
   { Fe: "+2, +3" },
   { Co: "+2, +3" },
   { Ni: "+2, +3" },
@@ -53,6 +55,27 @@ const elementValencies = [
   { Sn: "+2, +4" },
   { Pb: "+2, +4" }
 ];
+
+const nerdyValencies = [
+   { N: "+2, +4" },
+   { Mn: "+4, +6, +7" },
+   { Cr: "+6" },
+];
+
+const extraValencies = [
+  { Ti: "+2, +3, +4" },
+  { Ga: "+3" },
+  { Ge: "-4, +2, +4" },
+  { In: "+3" },
+  { Tl: "+1, +3" },
+  { Po: "+2" },
+  { Fr: "+1" },
+  { Ra: "+2" },
+  { Sc: "+3" },
+];
+
+
+
 
 let availableIndexes = elementValencies.map((_, index) => index);
 
@@ -118,6 +141,61 @@ function show_passed_ellement(object_element, correct){
   });
 
 }
+
+function toggle_nerd_mode(enable){
+  for (const burger of nerdyValencies){
+    const symbol = Object.keys(burger)[0];
+    const extra_nerdy_valencies = burger[symbol];
+    const index = elementValencies.findIndex(
+      normal_element => Object.hasOwn(normal_element, symbol)
+    );
+    if (enable){
+      if (index !== -1) {
+        elementValencies[index][symbol] += ", " + extra_nerdy_valencies;
+      } else {
+        elementValencies.push(burger);
+      }
+    }
+    else{
+      if (index !== -1) {
+        elementValencies[index][symbol] = elementValencies[index][symbol].replace(", " + extra_nerdy_valencies, "");
+      }
+    }
+  }
+}
+
+function toggle_extraValencies_mode(enable){
+  for (const pizza of extraValencies){
+    const symbol = Object.keys(pizza)[0];
+    const index = elementValencies.findIndex(
+        element => Object.hasOwn(element, symbol)
+      );
+    if(enable){
+      if (index === -1){
+        elementValencies.push(pizza);
+      }
+    }
+    else{
+      
+      if (index !== -1){
+        elementValencies.splice(index, 1);
+      }
+    }
+    // DOHRENA IMPORTANT!!!!!!!!!!!!!!!
+    // Call this right after toggling the modes to update the active pool of questions
+    // availableIndexes = elementValencies.map((_, index) => index);
+  }
+  
+}
+
+nerd_switch.addEventListener("change", () => {
+    if (nerd_switch.checked) {
+      nerd_image.style.visibility = "visible";
+    } else {
+      nerd_image.style.visibility = "hidden";
+
+    }
+});
 
 function washup_passed_elements(){
   for (const element_box of passed_ellements_array){
