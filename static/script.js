@@ -1,12 +1,15 @@
 // Access elements similarly to pointers/references in C++ or table lookups in Lua
 const button = document.getElementById("myButton");
+const start_button = document.getElementById("start_button");
 const nerd_switch = document.getElementById("nerd_switch");
+const more_valencies_switch = document.getElementById("more_valencies_switch");
 const nerd_image = document.getElementById("nerd");
 const body = document.body;
 const box = document.getElementById("box1");
 const element_name = document.getElementById("element_name");
 const mistakes_text = document.getElementById("mistakes");
 const correct_text = document.getElementById("correct");
+const start_menu = document.getElementById("start_menu");
 const score_text = document.getElementById("score");
 const elements_container = document.getElementById("ellements_container");
 
@@ -57,7 +60,7 @@ let elementValencies = [
 ];
 
 const nerdyValencies = [
-   { N: "+2, +4" },
+   { N: "+1, +2, +4" },
    { Mn: "+4, +6, +7" },
    { Cr: "+6" },
 ];
@@ -155,6 +158,7 @@ function toggle_nerd_mode(enable){
       } else {
         elementValencies.push(burger);
       }
+      console.log("NERD MODE IS ENABLED")
     }
     else{
       if (index !== -1) {
@@ -191,9 +195,18 @@ function toggle_extraValencies_mode(enable){
 nerd_switch.addEventListener("change", () => {
     if (nerd_switch.checked) {
       nerd_image.style.visibility = "visible";
+      toggle_nerd_mode(true);
     } else {
       nerd_image.style.visibility = "hidden";
+      toggle_nerd_mode(false);
+    }
+});
 
+more_valencies_switch.addEventListener("change", () => {
+    if (nerd_switch.checked) {
+      toggle_extraValencies_mode(true);
+    } else {
+      toggle_extraValencies_mode(false);
     }
 });
 
@@ -216,9 +229,15 @@ document.addEventListener("DOMContentLoaded", () => {
       valencies_buttons_array.push(btn);
     }
   }
-  currentElement = pickRandomElement();
-  availableIndexes = elementValencies.map((_, index) => index);
-  element_name.textContent = currentElement.symbol;
+  const isChecked = nerd_switch.checked;
+
+  // Run your logic with the initial state
+  toggle_nerd_mode(isChecked);
+
+  const isChecked2 = more_valencies_switch.checked;
+
+  toggle_extraValencies_mode(isChecked2);
+
 });
 // heading.textContent = "New Heading Text"
 
@@ -324,6 +343,14 @@ button.addEventListener("click", () => {
   load_new_element(true);
   displayStats()
   // test_passed_elements_list(100);
+});
+
+start_button.addEventListener("click", () => {
+  start_menu.style.display = "none";
+  currentElement = pickRandomElement();
+  availableIndexes = elementValencies.map((_, index) => index);
+  element_name.textContent = currentElement.symbol;
+
 });
 
 

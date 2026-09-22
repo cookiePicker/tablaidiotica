@@ -1,3 +1,7 @@
+body {
+    font-family: Consolas, monospace;
+}
+
 .text1 {
   position: fixed;
   left: 50%;
@@ -22,6 +26,7 @@
   text-align: center;          /* Centers multiple lines of text relative to each other */
   white-space: nowrap;
   font-size: 100px;
+  font-family: initial;
 }
 
 .buttons_container {
