@@ -145,6 +145,27 @@ function show_passed_ellement(object_element, correct){
 
 }
 
+let name_box = null;
+
+nerd_image.addEventListener("mouseenter", () => {
+    name_box = document.createElement("div");
+    const rect = nerd_image.getBoundingClientRect();
+    const center = rect.left + rect.width / 2;
+
+    name_box.style.left = center + "px";
+    name_box.style.top = (rect.top - 20) + "px"
+    body.appendChild(name_box)
+    name_box.className = "valencies_display_box";
+    name_box.textContent = "Ferrari";
+});
+
+nerd_image.addEventListener("mouseleave", () => {
+      if (name_box){
+        name_box.remove();
+      }
+      // console.log("Cursor left the button");
+});
+
 function toggle_nerd_mode(enable){
   for (const burger of nerdyValencies){
     const symbol = Object.keys(burger)[0];
